@@ -19,6 +19,7 @@ import { FormError } from "../form-error";
 import { FormSuccess } from "./form-success";
 import { login } from "@/actions/login";
 import { useState, useTransition } from "react";
+import { FaSpinner } from "react-icons/fa";
 
 export const LoginForm = () => {
     const [isPending, startTransition] = useTransition();
@@ -37,8 +38,8 @@ export const LoginForm = () => {
     const onSubmit = (values: z.infer<typeof LoginSchema>) => {
         startTransition(() => {
             login(values).then((data) => {
-                setError(data.error);
-                setSuccess(data.success);
+                setError(data?.error);
+                setSuccess(data?.success);
             });
         });
     };
@@ -95,6 +96,9 @@ export const LoginForm = () => {
                     <FormSuccess message={success} />
                     <FormError message={error} />
                     <Button type="submit" className="w-full">
+                        {isPending && (
+                            <FaSpinner className="animate-spin mr-2" />
+                        )}
                         Login
                     </Button>
                 </form>
