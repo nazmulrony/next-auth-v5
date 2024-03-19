@@ -1,9 +1,14 @@
 "use client";
 
+import { register } from "@/actions/register";
 import { RegisterSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { FaSpinner } from "react-icons/fa";
 import * as z from "zod";
+import { FormError } from "../form-error";
+import { Button } from "../ui/button";
 import {
     Form,
     FormControl,
@@ -14,13 +19,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { CardWrapper } from "./card-wrapper";
-import { Button } from "../ui/button";
-import { FormError } from "../form-error";
 import { FormSuccess } from "./form-success";
-import { login } from "@/actions/login";
-import { useState, useTransition } from "react";
-import { register } from "@/actions/register";
-import { FaSpinner } from "react-icons/fa";
 
 export const RegisterForm = () => {
     const [isPending, startTransition] = useTransition();
