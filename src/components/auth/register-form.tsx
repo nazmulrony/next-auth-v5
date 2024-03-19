@@ -19,6 +19,8 @@ import { FormError } from "../form-error";
 import { FormSuccess } from "./form-success";
 import { login } from "@/actions/login";
 import { useState, useTransition } from "react";
+import { register } from "@/actions/register";
+import { FaSpinner } from "react-icons/fa";
 
 export const RegisterForm = () => {
     const [isPending, startTransition] = useTransition();
@@ -37,7 +39,7 @@ export const RegisterForm = () => {
 
     const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
         startTransition(() => {
-            login(values).then((data) => {
+            register(values).then((data) => {
                 setError(data.error);
                 setSuccess(data.success);
             });
@@ -114,6 +116,9 @@ export const RegisterForm = () => {
                     <FormSuccess message={success} />
                     <FormError message={error} />
                     <Button type="submit" className="w-full">
+                        {isPending && (
+                            <FaSpinner className="animate-spin mr-2" />
+                        )}
                         Register
                     </Button>
                 </form>
