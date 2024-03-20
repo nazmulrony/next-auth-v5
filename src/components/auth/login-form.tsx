@@ -1,9 +1,15 @@
 "use client";
 
+import { login } from "@/actions/login";
 import { LoginSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "next/navigation";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { FaSpinner } from "react-icons/fa";
 import * as z from "zod";
+import { FormError } from "../form-error";
+import { Button } from "../ui/button";
 import {
     Form,
     FormControl,
@@ -14,14 +20,15 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { CardWrapper } from "./card-wrapper";
-import { Button } from "../ui/button";
-import { FormError } from "../form-error";
 import { FormSuccess } from "./form-success";
-import { login } from "@/actions/login";
-import { useState, useTransition } from "react";
-import { FaSpinner } from "react-icons/fa";
 
 export const LoginForm = () => {
+    const searchParams = useSearchParams();
+    const urlError =
+        searchParams.get("error") === "OAuthAccountNotLinked"
+            ? "Please login with different email"
+            : "";
+
     const [isPending, startTransition] = useTransition();
 
     const [error, setError] = useState<string | undefined>("");
@@ -94,7 +101,7 @@ export const LoginForm = () => {
                         />
                     </div>
                     <FormSuccess message={success} />
-                    <FormError message={error} />
+                    <FormError message={error || urlError} />
                     <Button type="submit" className="w-full">
                         {isPending && (
                             <FaSpinner className="animate-spin mr-2" />
