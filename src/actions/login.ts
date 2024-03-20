@@ -12,6 +12,9 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         return { error: "Invalid field values" };
     }
     const { email, password } = validatedFields.data;
+    // return {
+    //     success: "Confirmation email sent!",
+    //   };
 
     try {
         await signIn("credentials", {
